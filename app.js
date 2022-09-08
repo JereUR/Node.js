@@ -9,7 +9,7 @@ server.listen(port, () => {
 
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //Template engine
 app.set("view engine", "ejs");
@@ -26,12 +26,10 @@ app.get("/services", (req, res) => {
 });
 
 app.use((req, res, next) => {
-  res
-    .status(404)
-    .render("404", {
-      errorTitle: "Error 404",
-      errorDescription: "No page found",
-    });
+  res.status(404).render("404", {
+    errorTitle: "Error 404",
+    errorDescription: "No page found",
+  });
 });
 
 app.listen(port, () => {
