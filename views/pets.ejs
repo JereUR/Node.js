@@ -1,0 +1,27 @@
+<%- include("template/header",{webTitle:"Homepage"}) %>
+
+<br /><br />
+<div class="container">
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (arrayPets.length>0) { %> <% arrayPets.forEach(pet => { %>
+      <tr>
+        <th scope="row"><%= pet.id%></th>
+        <td><%= pet.name %></td>
+        <td><%= pet.description %></td>
+        <td>@mdo</td>
+      </tr>
+      <% }) %> <% }%>
+    </tbody>
+  </table>
+</div>
+
+<%- include("template/footer") %>

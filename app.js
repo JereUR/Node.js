@@ -17,13 +17,9 @@ app.set("views", __dirname + "/views");
 
 app.use(express.static(__dirname + "/public"));
 
-app.get("/", (req, res) => {
-  res.render("index", { title: "My dynamic title" });
-});
-
-app.get("/services", (req, res) => {
-  res.render("services", { servicesTitle: "My dynamic services title" });
-});
+//Web Routes
+app.use("/", require("./router/WebRoutes"));
+app.use("/pets", require("./router/Pets"));
 
 app.use((req, res, next) => {
   res.status(404).render("404", {
