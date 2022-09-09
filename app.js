@@ -9,7 +9,22 @@ server.listen(port, () => {
 
 const express = require("express");
 const app = express();
+
+require("dotenv").config();
+
 const port = process.env.PORT || 3000;
+
+const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@nodetest.ohenaq9.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
+
+//BD Conection
+const mongoose = require("mongoose");
+mongoose
+  .connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected Database"))
+  .catch((e) => console.log(e));
 
 //Template engine
 app.set("view engine", "ejs");
