@@ -1,15 +1,13 @@
-<%- include("template/header",{webTitle:"Homepage"}) %>
+<%- include("template/header",{webTitle:"Create new pet"}) %>
 
-<br /><br />
 <div class="container">
-  <h1>CRUD Mongo</h1>
-  <a
-    class="btn btn-success btn-block my-4"
-    style="display: block !important"
-    href="/pets/create"
+  <h1>Pet Detail</h1>
+  <% if (error) { %>
+  <p><%= message %></p>
+  <a href="/pets" class="btn btn-dark" style="display: block !important"
+    >Back to Pets</a
   >
-    Create new pet</a
-  >
+  <% } %> <% if (!error) { %>
   <table class="table table-dark table-striped">
     <thead>
       <tr>
@@ -20,18 +18,15 @@
       </tr>
     </thead>
     <tbody>
-      <% if (arrayPets.length>0) { %> <% arrayPets.forEach(pet => { %>
       <tr>
         <th scope="row"><%= pet.id%></th>
         <td><%= pet.name %></td>
         <td><%= pet.description %></td>
-        <td>
-          <a href="/pets/<%= pet.id%>" class="btn btn-warning btn-sm">Edit</a>
-        </td>
+        <td>@mdo</td>
       </tr>
-      <% }) %> <% }%>
     </tbody>
   </table>
+  <% } %>
 </div>
 
 <%- include("template/footer") %>
