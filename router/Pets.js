@@ -50,4 +50,49 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const petDB = await Pet.findByIdAndDelete({ _id: id });
+
+    if (petDB) {
+      res.json({
+        state: true,
+        message: "Pet deleted",
+      });
+    } else {
+      res.json({
+        state: false,
+        message: "Failed to delete",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  const id = req.params.id;
+  const body = req.body;
+  try {
+    const petDB = await Pet.findByIdAndUpdate(id, body, {
+      useFindAndModify: false,
+    });
+    console.log(petDB);
+
+    res.json({
+      state: true,
+      message: "Edit completed",
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.json({
+      state: false,
+      message: "Edit failed",
+    });
+  }
+});
+
 module.exports = router;

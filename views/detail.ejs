@@ -4,29 +4,88 @@
   <h1>Pet Detail</h1>
   <% if (error) { %>
   <p><%= message %></p>
-  <a href="/pets" class="btn btn-dark" style="display: block !important"
-    >Back to Pets</a
-  >
+  <a href="/pets" class="btn btn-dark btn-block w-100">Back to Pets</a>
   <% } %> <% if (!error) { %>
-  <table class="table table-dark table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Description</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row"><%= pet.id%></th>
-        <td><%= pet.name %></td>
-        <td><%= pet.description %></td>
-        <td>@mdo</td>
-      </tr>
-    </tbody>
-  </table>
+
+  <form id="editForm" data-id="<%= pet.id%>">
+    <input
+      type="text"
+      class="form-control my-2"
+      name="name"
+      value="<%= pet.name %>"
+      id="inputName"
+    />
+    <input
+      type="text"
+      class="form-control my-2"
+      name="description"
+      value="<%= pet.description %>"
+      id="inputDescription"
+    />
+    <button class="btn btn-warning btn-block w-100" type="submit">Edit</button>
+  </form>
+  <hr />
+  <button
+    class="btn btn-danger btn-sm mt-2"
+    id="btn-delete"
+    data-id="<%= pet.id%>"
+  >
+    Delete
+  </button>
+  <a href="/pets/" class="btn btn-light btn-sm mt-2">Back</a>
   <% } %>
 </div>
 
 <%- include("template/footer") %>
+
+<script>
+  const btnDelete = document.querySelector("#btn-delete");
+  btnDelete.addEventListener("click", async () => {
+    const id = btnDelete.dataset.id;
+    try {
+      const data = await fetch(`/pets/${id}`, {
+        method: "delete",
+      });
+      const res = await data.json();
+      /* console.log(res); */
+      if (res.state) {
+        window.location.href = "/pets";
+      } else {
+        console.log(res);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  const editForm = document.querySelector("#editForm");
+
+  editForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    //Two options to get pet information
+    const name = editForm.elements["name"].value;
+    const description = document.querySelector("#inputDescription").value;
+
+    const id = editForm.dataset.id;
+
+    try {
+      const data = await fetch(`/pets/${id}`, {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, description }),
+      });
+
+      const res = await data.json();
+      if (res.state) {
+        window.location.href = "/pets";
+      } else {
+        console.log(res);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+</script>
